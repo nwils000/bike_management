@@ -55,6 +55,12 @@ if user_menu_selection == '3':
     except:
         print("Couldn't create customer order, you typed something in wrong...")
 
-
-
-print(Customer_Order.objects.all())
+if user_menu_selection == '4':
+    print('\n\n************Full Vehicle Stock************\n')
+    try:
+        vehicles = Vehicle.objects.all()
+        for vehicle in vehicles:
+            print(vehicle)
+        print("")
+    except:
+        print("Sorry, we couldn't show you the full stock of vehicles...")

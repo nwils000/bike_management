@@ -15,7 +15,7 @@ user_menu_selection = input('''\n\n************MENU************
                             
 Choose an option: ''')
 
-print(Vehicle.objects.all())
+print(Customer.objects.all())
 
 if user_menu_selection == '1':
     vehicle_type = input('What is the vehicles type? (bicycle, unicycle, or tricycle) ')
@@ -27,4 +27,13 @@ if user_menu_selection == '1':
     except:
         "You typed something in wrong..."
 
-print(Vehicle.objects.all())
+if user_menu_selection == '2':
+    name_input = input('What is the customers name? ')
+    try:
+        customer = Customer(name=name_input)
+        customer.save()
+    except:
+        "You typed something in wrong..."
+
+
+print(Customer.objects.all())

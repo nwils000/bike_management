@@ -20,6 +20,7 @@ Choose an option: ''')
 
 print(Customer_Order.objects.all())
 
+
 if user_menu_selection == '1':
     vehicle_type = input('What is the vehicles type? (bicycle, unicycle, or tricycle) ')
     stock = input('How many would you like to add? ')
@@ -52,10 +53,17 @@ if user_menu_selection == '3':
         is_paid = False
 
     try:
-        customer_to_add = Customer.objects.get(name=customer)
         vehicle_to_add = Vehicle.objects.get(type=vehicle)
-        order = Customer_Order(customer = customer_to_add, order = vehicle_to_add, created_date = str(date.today()), paid = is_paid)
-        order.save()
+        if vehicle_to_add.number_in_stock > 0:
+            vehicle_to_add.number_in_stock -= 1
+            vehicle_to_add.save()
+
+            customer_to_add = Customer.objects.get(name=customer)
+           
+            order = Customer_Order(customer = customer_to_add, order = vehicle_to_add, created_date = str(date.today()), paid = is_paid)
+            order.save()
+        else:
+            print("Not enough vehicles in stock to make your order...")          
     except:
         print("Couldn't create customer order, you typed something in wrong...")
 
@@ -72,13 +80,15 @@ if user_menu_selection == '4':
 
 if user_menu_selection == '5':
     customer = input('Which customer is made the order? (Capitalization matters) ')
-    vehicle = input("What vehicle did they buying? (bicycle, unicycle, or tricycle) ")
+    vehicle = input("What vehicle did they buy? (bicycle, unicycle, or tricycle) ")
 
     try:
         customer_object = Customer.objects.get(name=customer)
         vehicle_object = Vehicle.objects.get(type=vehicle)
         order = Customer_Order.objects.get(customer=customer_object, order=vehicle_object)
         order.delete()
+        vehicle_object.number_in_stock += 1
+        vehicle_object.save()
     except:
         print("Couldn't create customer order, you typed something in wrong...")
 

@@ -16,3 +16,6 @@ class Customer_Order(models.Model):
     order = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True)
     created_date = models.CharField(max_length=100)
     paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'customer: {self.customer}, order: {self.order}, created_date: {self.created_date}, paid: {self.paid}'

@@ -35,16 +35,24 @@ customers_orders = Customer_Order.objects.all()
 #     ]
 # )
 
-customer = Customer.objects.get(name = "Nathan Wilson")
+customers_to_add = Customer_Order.objects.all()
+
+for customer in customers_to_add:
+    print(customer)
+# vehicles_to_add = Vehicle.objects.all()
+
 
 # Customer_Order.objects.bulk_create(
 #     [
-
+#         Customer_Order(customer = customers_to_add[0], order = vehicles_to_add[0], created_date = '5/12/2024', paid = True),
+#         Customer_Order(customer = customers_to_add[1], order = vehicles_to_add[1], created_date = '4/3/2024', paid = True),
+#         Customer_Order(customer = customers_to_add[2], order = vehicles_to_add[2], created_date = '2/22/2023', paid = True),
+#         Customer_Order(customer = customers_to_add[3], order = vehicles_to_add[3], created_date = '12/10/2022', paid = True),
 #     ]
 # )
 
 # print(vehicles)
-print(customer)
+
 # print(customers_orders)
 
 

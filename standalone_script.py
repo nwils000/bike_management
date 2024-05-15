@@ -79,17 +79,26 @@ if user_menu_selection == '4':
         print("Sorry, we couldn't show you the full stock of vehicles...")
 
 if user_menu_selection == '5':
-    customer = input('Which customer is made the order? (Capitalization matters) ')
-    vehicle = input("What vehicle did they buy? (bicycle, unicycle, or tricycle) ")
+    order_id = input('What is your order ID? ')
 
     try:
-        customer_object = Customer.objects.get(name=customer)
-        vehicle_object = Vehicle.objects.get(type=vehicle)
-        order = Customer_Order.objects.get(customer=customer_object, order=vehicle_object)
+        order = Customer_Order.objects.get(id=order_id)
         order.delete()
-        vehicle_object.number_in_stock += 1
-        vehicle_object.save()
+        order.order.number_in_stock += 1
+        order.order.save()
     except:
         print("Couldn't create customer order, you typed something in wrong...")
+
+if user_menu_selection == '6':
+    order_id = input('What is your order ID? ')
+    confirm = input("Confirm that you paid for the vehicle (Y/N)")
+
+    if confirm == "Y":
+        try:
+            order = Customer_Order.objects.get(id=order_id)
+            order.paid = True
+            order.save()
+        except:
+            print("Couldn't create customer order, you typed something in wrong...")
 
 print(Customer_Order.objects.all())

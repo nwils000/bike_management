@@ -1,6 +1,7 @@
 import os
 import django
 from django.conf import settings
+from datetime import date
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "bike_project.settings"
 django.setup()
@@ -15,7 +16,7 @@ user_menu_selection = input('''\n\n************MENU************
                             
 Choose an option: ''')
 
-print(Customer.objects.all())
+print(Customer_Order.objects.all())
 
 if user_menu_selection == '1':
     vehicle_type = input('What is the vehicles type? (bicycle, unicycle, or tricycle) ')
@@ -25,7 +26,7 @@ if user_menu_selection == '1':
         vehicle.number_in_stock += int(stock)
         vehicle.save()
     except:
-        "You typed something in wrong..."
+        print("Couldn't create vehicle, you typed something in wrong...")
 
 if user_menu_selection == '2':
     name_input = input('What is the customers name? ')
@@ -33,7 +34,27 @@ if user_menu_selection == '2':
         customer = Customer(name=name_input)
         customer.save()
     except:
-        "You typed something in wrong..."
+        print("Couldn't create customer, you typed something in wrong...")
 
 
-print(Customer.objects.all())
+if user_menu_selection == '3':
+    customer = input('Which customer is making an order? (Capitalization matters) ')
+    vehicle = input("What vehicle are they buying? (bicycle, unicycle, or tricycle) ")
+    is_paid = input("Are you paying up front? (Y/N)")
+
+    if is_paid == "Y":
+        is_paid = True
+    else:
+        is_paid = False
+
+    try:
+        customer_to_add = Customer.objects.get(name=customer)
+        vehicle_to_add = Vehicle.objects.get(type=vehicle)
+        order = Customer_Order(customer = customer_to_add, order = vehicle_to_add, created_date = str(date.today()), paid = is_paid)
+        order.save()
+    except:
+        print("Couldn't create customer order, you typed something in wrong...")
+
+
+
+print(Customer_Order.objects.all())

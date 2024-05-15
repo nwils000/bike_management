@@ -9,7 +9,7 @@ class Vehicle(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=60)
     def __str__(self):
-        return f'name: {self.name}'
+        return f'id: {self.id}, name: {self.name}'
 
 class Customer_Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)

@@ -13,6 +13,8 @@ user_menu_selection = input('''\n\n************MENU************
 -Add new customer (2)
 -Make a new order (3)
 -Display Inventory (4)
+-Cancel customer order (5)
+-Mark an order as paid (6)
                             
 Choose an option: ''')
 
@@ -21,6 +23,7 @@ print(Customer_Order.objects.all())
 if user_menu_selection == '1':
     vehicle_type = input('What is the vehicles type? (bicycle, unicycle, or tricycle) ')
     stock = input('How many would you like to add? ')
+
     try:
         vehicle = Vehicle.objects.get(type=vehicle_type)
         vehicle.number_in_stock += int(stock)
@@ -30,6 +33,7 @@ if user_menu_selection == '1':
 
 if user_menu_selection == '2':
     name_input = input('What is the customers name? ')
+
     try:
         customer = Customer(name=name_input)
         customer.save()
@@ -57,6 +61,7 @@ if user_menu_selection == '3':
 
 if user_menu_selection == '4':
     print('\n\n************Full Vehicle Stock************\n')
+
     try:
         vehicles = Vehicle.objects.all()
         for vehicle in vehicles:
@@ -64,3 +69,17 @@ if user_menu_selection == '4':
         print("")
     except:
         print("Sorry, we couldn't show you the full stock of vehicles...")
+
+if user_menu_selection == '5':
+    customer = input('Which customer is made the order? (Capitalization matters) ')
+    vehicle = input("What vehicle did they buying? (bicycle, unicycle, or tricycle) ")
+
+    try:
+        customer_object = Customer.objects.get(name=customer)
+        vehicle_object = Vehicle.objects.get(type=vehicle)
+        order = Customer_Order.objects.get(customer=customer_object, order=vehicle_object)
+        order.delete()
+    except:
+        print("Couldn't create customer order, you typed something in wrong...")
+
+print(Customer_Order.objects.all())

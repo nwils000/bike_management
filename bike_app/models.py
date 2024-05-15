@@ -12,8 +12,8 @@ class Customer(models.Model):
         return f'name: {self.name}'
 
 class Customer_Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    order = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    order = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True)
     created_date = models.CharField(max_length=100)
     paid = models.BooleanField(default=False)
 

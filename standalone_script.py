@@ -35,6 +35,7 @@ def selections(user_menu_selection):
                 print(Fore.RED + "\tYou did not put in a valid vehicle reference number.")
                 time.sleep(1)
                 showMenu()
+                # Creates the vehicle based on the type described in the input
             vehicle = Vehicle.objects.get(type=vehicle_name)
             vehicle.number_in_stock += int(stock)
             vehicle.save()
@@ -55,6 +56,7 @@ def selections(user_menu_selection):
         name_input = input(Fore.CYAN + Style.BRIGHT + '\tWhat is the new customer\'s name? ')
         print(Fore.GREEN + f'''\n\tAdded {name_input} to customers!''')
         try:
+            # Creates a new customer with name from the user input
             customer = Customer(name=name_input)
             customer.save()
         except:
@@ -80,7 +82,9 @@ def selections(user_menu_selection):
             is_paid = True
         else:
             is_paid = False
+            # Finds the customer to attach to the order
         customer_to_add = Customer.objects.get(id=order_id, name=customer)
+        # Creates a new instance of Order with the customer attached
         new_order = Order(customer=customer_to_add, created_date=str(date.today()), paid=is_paid)
         new_order.save()
         if len(vehicles) <= 3:
@@ -146,7 +150,9 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
                 amount_of_type = input(Fore.CYAN + Style.BRIGHT + f"\n\tHow many {vehicle}(s) do you want to buy? ")
 
                 try:
+                    # Gets the vehicle class associated with this vehicle type
                     vehicle_to_add = Vehicle.objects.get(type=vehicle)
+                    # Adds a new order detail attached to the order with the vehicle class and amount attached to it
                     new_order_detail = Order_Detail(order=new_order, vehicle=vehicle_to_add, amount=int(amount_of_type))
                     new_order_detail.save()
                     print(Fore.GREEN + f'''\n\tAdded {amount_of_type} {vehicle}(s) to your order!''')
@@ -166,6 +172,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
         print(Fore.YELLOW + '\n\t************Full Vehicle Stock************\n')
 
         try:
+            # Loops through all vehicle types and displays them
             vehicles = Vehicle.objects.all()
             for vehicle in vehicles:
                 print(f"\t{vehicle}")
@@ -185,11 +192,14 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
         order_id = input(Fore.CYAN + Style.BRIGHT + '\tWhat is your order ID? ')
 
         try:
+            # Finds the currect order they want to delete
             order = Order.objects.get(id=order_id)
             print(Fore.GREEN + f'''\n\tSuccessfully deleted order number {order_id}. Here is your receipt:
             \t{order}''')
+            # Loops through all of the order details that are attached to this instance of the Order class
             for detail in order.order_detail_set.all():
                 vehicle = detail.vehicle
+                # Increments the stock amount for that particular vehicle type
                 vehicle.number_in_stock += detail.amount
                 vehicle.save()
             order.delete()
@@ -210,7 +220,9 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
 
         if confirm == "y":
             try:
+                # Finds the order
                 order = Order.objects.get(id=order_id)
+                # Changes paid to True
                 order.paid = True
                 order.save()
                 print(Fore.GREEN + f'''\n\tSuccessfully paid for order number {order_id}. Here is your receipt:

@@ -25,11 +25,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f'''
-{self.customer}, we successfully created your order! Here is your receipt:
-Order ID: {self.id}
-Date: {self.created_date}
-Paid: {"Yes" if self.paid else "No"}
-Vehicle(s): {self.the_details()}'''
+            Name: {self.customer.name}
+            Order ID: {self.id}
+            Date: {self.created_date}
+            Paid: {"Yes" if self.paid else "No"}
+            Vehicle(s): {self.the_details()}'''
 
 class Order_Detail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True,) 

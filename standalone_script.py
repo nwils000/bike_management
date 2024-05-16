@@ -154,6 +154,8 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
                     vehicle_to_add = Vehicle.objects.get(type=vehicle)
                     # Adds a new order detail attached to the order with the vehicle class and amount attached to it
                     new_order_detail = Order_Detail(order=new_order, vehicle=vehicle_to_add, amount=int(amount_of_type))
+                    vehicle_to_add.number_in_stock -= int(amount_of_type)
+                    vehicle_to_add.save()
                     new_order_detail.save()
                     print(Fore.GREEN + f'''\n\tAdded {amount_of_type} {vehicle}(s) to your order!''')
                 except:

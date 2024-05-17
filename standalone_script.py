@@ -13,6 +13,7 @@ django.setup()
 from bike_app.models import *
 
 def selections(user_menu_selection):
+    # Add a vehicle to stock
     if user_menu_selection == '1':
         print(Fore.YELLOW + "\n\tAll Vehicles:\n")
         vehicles = Vehicle.objects.all()
@@ -47,6 +48,7 @@ def selections(user_menu_selection):
         time.sleep(1)
         showMenu()
 
+    # Add a customer to db
     if user_menu_selection == '2':
         customers = Customer.objects.all()
         print(Fore.YELLOW + "\n\tAll Customers:\n")
@@ -65,6 +67,7 @@ def selections(user_menu_selection):
         time.sleep(1)
         showMenu()
 
+    # Create an order
     if user_menu_selection == '3':
         customers = Customer.objects.all()
         print(Fore.YELLOW + "\n\tAll Customers:\n")
@@ -114,7 +117,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
                     vehicle = "unicycle"
                     emoji = print(Fore.RED + '''                                             
                        -   ,--_--.
-               -           \      `.
+               -           |      `.
                       -     "-_ _   |
      -                         / F   )
                    -     -    / / `--'
@@ -132,8 +135,8 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
   `       J---|  F         F F
 `   `. `   `--J  L        J  F
     .   .`     L J       J  F
-       .  .    J  \    ,"  F
-         .  `.` \  "--"  ,"
+       .  .    J  |    ,"  F
+         .  `.` |  "--"  ,"
             ` ``."-____-"                  ''')
                 elif char == "3":
                     vehicle = "tricycle"
@@ -170,6 +173,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
             time.sleep(1)
             showMenu()  
 
+    # Shows all vehicles in stock
     if user_menu_selection == '4':
         print(Fore.YELLOW + '\n\t************Full Vehicle Stock************\n')
 
@@ -185,6 +189,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
         time.sleep(1)
         showMenu()
 
+    # Deletes a specific order
     if user_menu_selection == '5':  
         print(Fore.YELLOW + "\n\tAll Customer Orders:\n")
         orders = Order.objects.all()
@@ -199,6 +204,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
             print(Fore.GREEN + f'''\n\tSuccessfully deleted order number {order_id}. Here is your receipt:
             \t{order}''')
             # Loops through all of the order details that are attached to this instance of the Order class
+            # _set is getting all of the Order_Detail classes associated with this order
             for detail in order.order_detail_set.all():
                 vehicle = detail.vehicle
                 # Increments the stock amount for that particular vehicle type
@@ -211,6 +217,7 @@ $       $$$$$       $   4$$$$$$$     L       *$$$"      4
         time.sleep(1)
         showMenu()
 
+    # Changes a specific orders payment status
     if user_menu_selection == '6':
         print(Fore.YELLOW + "\n\tAll Customer Orders:\n")
         orders = Order.objects.all()
